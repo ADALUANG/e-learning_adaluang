@@ -1,127 +1,835 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayo Dalami Peluang!</title>
 
-rules_version = '2';
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-service cloud.firestore {
-  match /databases/{database}/documents {
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-    // Memastikan pengguna sudah login melalui Firebase Authentication.
-    function signedIn() {
-      return request.auth != null;
-    }
+:root{
+  --purple:#8056d9;
+  --dark:#35256c;
+  --muted:#8984a5;
+}
 
-    // Memeriksa apakah profil pengguna tersedia.
-    function userExists(uid) {
-      return exists(
-        /databases/$(database)/documents/users/$(uid)
+body{
+  min-height:100vh;
+  font-family:'Nunito',sans-serif;
+  color:var(--dark);
+  overflow-x:hidden;
+  background:
+    radial-gradient(ellipse at 3% 28%,#f0e4ff 0%,transparent 34%),
+    radial-gradient(ellipse at 99% 78%,#fff0f8 0%,transparent 32%),
+    #fcfaff;
+}
+
+.page{
+  width:100%;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1.04fr 1.12fr .91fr;
+  align-items:center;
+  gap:30px;
+  padding:55px 7.8%;
+}
+
+.left{
+  align-self:center;
+  transform:translateY(-4px);
+}
+
+.pill{
+  display:inline-block;
+  padding:10px 17px;
+  border-radius:30px;
+  background:#f0e7ff;
+  color:#8a66cf;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:32px;
+}
+
+h1{
+  font-size:clamp(43px,3.8vw,62px);
+  line-height:1.06;
+  letter-spacing:-1.5px;
+  font-weight:900;
+  color:#35256c;
+}
+
+h1 span{
+  display:block;
+  color:#8056d9;
+}
+
+.description{
+  color:#8984a5;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.9;
+  margin-top:23px;
+  max-width:410px;
+}
+
+.math{
+  margin-top:61px;
+  font-size:19px;
+  font-style:italic;
+  color:#9879d1;
+}
+
+.left-art{
+  width:100%;
+  max-width:390px;
+  margin-top:12px;
+  display:block;
+}
+
+.center{
+  width:100%;
+  max-width:460px;
+  justify-self:center;
+  background:rgba(255,255,255,.94);
+  border:1px solid #f1ecf8;
+  border-radius:29px;
+  padding:28px 29px 40px;
+  box-shadow:0 22px 65px rgba(102,76,153,.09);
+  text-align:center;
+}
+
+.center h2{
+  font-size:28px;
+  font-weight:900;
+  line-height:1.4;
+}
+
+.sub{
+  color:#8984a5;
+  font-size:16px;
+  font-weight:700;
+  margin-top:2px;
+  margin-bottom:21px;
+}
+
+.rooms{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.room{
+  border:1px solid transparent;
+  border-radius:21px;
+  min-width:0;
+  padding:17px 13px 15px;
+  text-align:left;
+  cursor:pointer;
+  color:#352d55;
+  font-family:inherit;
+  transition:transform .2s,box-shadow .2s;
+}
+
+.room:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 22px #60468b15;
+}
+
+.teacher{
+  background:linear-gradient(145deg,#f8f2ff,#eee7ff);
+  border-color:#eae0fb;
+}
+
+.student{
+  background:linear-gradient(145deg,#eff8ff,#e0f1ff);
+  border-color:#deedfb;
+}
+
+.avatar{
+  width:67px;
+  height:67px;
+  border-radius:50%;
+  margin:0 auto 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e1d0ff;
+}
+
+.student .avatar{
+  background:#cce9ff;
+}
+
+.avatar svg{
+  width:49px;
+  height:49px;
+}
+
+.room h3{
+  font-size:16px;
+  font-weight:900;
+  line-height:1.4;
+  white-space:nowrap;
+}
+
+.room p{
+  font-size:11px;
+  line-height:1.5;
+  color:#8984a5;
+  min-height:34px;
+  margin-top:2px;
+}
+
+.arrow{
+  margin-top:7px;
+  height:31px;
+  width:31px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  color:white;
+  background:#b89be9;
+  font-size:21px;
+  font-weight:700;
+}
+
+.student .arrow{
+  background:#79b8e9;
+}
+
+.register{
+  margin-top:28px;
+  color:#8984a5;
+  font-size:12px;
+}
+
+.register button{
+  background:none;
+  border:none;
+  color:#8056d9;
+  cursor:pointer;
+  font:inherit;
+  font-weight:800;
+  margin-left:5px;
+}
+
+.right{
+  align-self:center;
+  text-align:center;
+  transform:translateY(-5px);
+}
+
+.quote{
+  font-size:15px;
+  font-style:italic;
+  line-height:1.8;
+  color:#8984a5;
+  margin-bottom:48px;
+}
+
+.formula{
+  text-align:left;
+  font-size:19px;
+  font-style:italic;
+  color:#a087d6;
+}
+
+.right-art{
+  display:block;
+  width:100%;
+  max-width:370px;
+  margin:0 auto;
+}
+
+/* Form login */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:10;
+  background:#2b1d4988;
+  backdrop-filter:blur(5px);
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-card{
+  width:100%;
+  max-width:400px;
+  background:white;
+  border-radius:25px;
+  padding:30px;
+  box-shadow:0 20px 70px #24133b30;
+}
+
+.modal-card h2{
+  font-size:26px;
+  margin-bottom:6px;
+}
+
+.modal-card>p{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:22px;
+}
+
+.field{
+  margin-bottom:15px;
+}
+
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.field input{
+  width:100%;
+  padding:13px;
+  border:1px solid #e6def4;
+  border-radius:12px;
+  outline:none;
+  font:inherit;
+}
+
+.field input:focus{
+  border-color:var(--purple);
+}
+
+.submit{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:12px;
+  background:var(--purple);
+  color:white;
+  font:inherit;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.submit:disabled{
+  opacity:.7;
+  cursor:wait;
+}
+
+.cancel{
+  width:100%;
+  background:none;
+  border:0;
+  padding:12px;
+  color:var(--muted);
+  cursor:pointer;
+  font:inherit;
+}
+
+.message{
+  font-size:13px;
+  color:#b3425a;
+  margin-top:12px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+
+@media(max-width:1100px){
+  .page{
+    grid-template-columns:1fr 1.05fr;
+    padding:45px 6%;
+    gap:28px;
+  }
+
+  .right{
+    display:none;
+  }
+}
+
+@media(max-width:650px){
+  .page{
+    display:flex;
+    flex-direction:column;
+    gap:28px;
+    padding:35px 20px;
+  }
+
+  .left{
+    text-align:center;
+    width:100%;
+  }
+
+  h1{
+    font-size:45px;
+  }
+
+  .description{
+    font-size:14px;
+    margin:17px auto 0;
+  }
+
+  .pill{
+    margin-bottom:23px;
+  }
+
+  .math,.left-art{
+    display:none;
+  }
+
+  .center{
+    padding:27px 17px 32px;
+  }
+
+  .center h2{
+    font-size:25px;
+  }
+
+  .room{
+    padding:15px 9px;
+  }
+
+  .room h3{
+    font-size:14px;
+  }
+
+  .room p{
+    font-size:10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="page">
+
+  <!-- BAGIAN KIRI -->
+  <section class="left">
+    <div class="pill">✦ RUANG BELAJAR DIGITAL</div>
+
+    <h1>Ayo Dalami <span>Peluang!</span></h1>
+
+    <p class="description">
+      Belajar matematika jadi lebih seru, interaktif,
+      dan dekat dengan kehidupan sehari-hari.
+    </p>
+
+    <div class="math">P(A) = ?</div>
+
+    <svg class="left-art" viewBox="0 0 390 250" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="190" cy="220" rx="172" ry="24" fill="#e8dcff"/>
+      <ellipse cx="200" cy="194" rx="126" ry="75" fill="#eee5ff"/>
+      <path d="M34 177L66 165L85 188L52 198Z" fill="#fff" stroke="#a58adf" stroke-width="4"/>
+      <path d="M45 176L64 187M64 176L48 190" stroke="#a58adf" stroke-width="3"/>
+      <rect x="31" y="196" width="92" height="14" rx="5" fill="#b991ef"/>
+      <rect x="27" y="209" width="100" height="14" rx="5" fill="#79b9e9"/>
+      <rect x="40" y="194" width="82" height="5" rx="2" fill="#fff"/>
+      <path d="M104 102Q102 42 150 37Q201 37 203 99L207 135L107 139Z" fill="#52318e"/>
+      <path d="M111 83Q112 45 150 45Q190 45 194 84L186 135L119 137Z" fill="#5b389c"/>
+      <ellipse cx="153" cy="102" rx="36" ry="43" fill="#ffd9b9"/>
+      <path d="M117 94Q119 55 153 55Q187 57 189 92L178 75Q148 85 122 72Z" fill="#52318e"/>
+      <circle cx="140" cy="102" r="3" fill="#35256c"/>
+      <circle cx="166" cy="102" r="3" fill="#35256c"/>
+      <path d="M143 117Q153 126 164 116" fill="none" stroke="#d87983" stroke-width="3" stroke-linecap="round"/>
+      <path d="M122 143Q153 128 182 144L205 194L101 194Z" fill="#a27ae9"/>
+      <path d="M122 147L101 180L80 173L96 143Q104 134 122 147Z" fill="#ffd2b1"/>
+      <path d="M181 147L204 174L218 165L197 141Q189 136 181 147Z" fill="#ffd2b1"/>
+      <path d="M119 188L112 218L128 218L139 189Z" fill="#52318e"/>
+      <path d="M169 188L177 218L191 218L186 188Z" fill="#52318e"/>
+      <g transform="rotate(-7 179 192)">
+        <rect x="139" y="177" width="111" height="53" rx="7" fill="#6845ae"/>
+        <rect x="145" y="182" width="99" height="42" rx="4" fill="#dff3ff"/>
+        <path d="M185 200L194 209L212 191" fill="none" stroke="#8e70d4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <path d="M284 211Q285 174 277 145" stroke="#68b99c" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M281 176Q239 164 250 135Q277 138 281 176Z" fill="#81c9a9"/>
+      <path d="M283 193Q309 151 331 166Q326 191 283 193Z" fill="#67b99b"/>
+      <path d="M261 208L310 208L302 239L270 239Z" fill="#b39ae8"/>
+      <path d="M266 213L305 213" stroke="#d9c9ff" stroke-width="4"/>
+      <text x="19" y="115" fill="#a58adf" font-size="20">✦</text>
+      <text x="325" y="130" fill="#a58adf" font-size="20">+</text>
+    </svg>
+  </section>
+
+  <!-- KARTU TENGAH -->
+  <section class="center">
+    <h2>Selamat datang!</h2>
+    <p class="sub">Pilih ruang belajarmu.</p>
+
+    <div class="rooms">
+
+      <button class="room teacher" onclick="openLogin('guru')">
+        <div class="avatar">
+          <svg viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="30" cy="29" r="24" fill="#d5b9ff"/>
+            <rect x="15" y="19" width="30" height="24" rx="3" fill="#8056d9"/>
+            <path d="M20 25Q19 9 31 10Q44 11 42 26L40 35H21Z" fill="#51328d"/>
+            <ellipse cx="31" cy="26" rx="10" ry="12" fill="#ffd9b9"/>
+            <path d="M21 24Q22 12 31 13Q40 13 41 24L35 18L22 20Z" fill="#51328d"/>
+            <circle cx="27" cy="27" r="1.2" fill="#35256c"/>
+            <circle cx="35" cy="27" r="1.2" fill="#35256c"/>
+            <path d="M27 32Q31 36 35 32" fill="none" stroke="#d87983" stroke-width="1.5"/>
+            <path d="M23 40L21 49H41L39 40Z" fill="#fff"/>
+          </svg>
+        </div>
+        <h3>Ruang Guru</h3>
+        <p>Kelola kelas dan materi</p>
+        <div class="arrow">➜</div>
+      </button>
+
+      <button class="room student" onclick="openLogin('murid')">
+        <div class="avatar">
+          <svg viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="30" cy="29" r="24" fill="#b7dfff"/>
+            <path d="M16 23Q15 9 30 9Q45 9 44 24L42 37H18Z" fill="#47316f"/>
+            <ellipse cx="30" cy="26" rx="10" ry="12" fill="#ffd9b9"/>
+            <path d="M20 23Q20 11 30 12Q40 12 40 23L34 17L22 19Z" fill="#47316f"/>
+            <circle cx="26" cy="27" r="1.2" fill="#35256c"/>
+            <circle cx="34" cy="27" r="1.2" fill="#35256c"/>
+            <path d="M26 32Q30 35 34 32" fill="none" stroke="#d87983" stroke-width="1.5"/>
+            <path d="M19 42Q30 35 41 42L44 51H16Z" fill="#fff"/>
+            <path d="M18 19L42 19L38 14H22Z" fill="#3f2d69"/>
+          </svg>
+        </div>
+        <h3>Ruang Murid</h3>
+        <p>Belajar materi peluang</p>
+        <div class="arrow">➜</div>
+      </button>
+
+    </div>
+
+    <div class="register">
+      Belum punya akun?
+      <button onclick="openRegister()">Daftar sekarang</button>
+    </div>
+  </section>
+
+  <!-- BAGIAN KANAN -->
+  <section class="right">
+    <p class="quote">
+      Peluang hari ini,<br>
+      kesempatan masa depan ♡
+    </p>
+
+    <div class="formula">P(A)</div>
+
+    <svg class="right-art" viewBox="0 0 370 320" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="185" cy="287" rx="162" ry="23" fill="#e9dcff"/>
+      <ellipse cx="184" cy="282" rx="135" ry="14" fill="#dcd0fa" opacity=".6"/>
+      <path d="M78 234L278 218L322 238L123 258Z" fill="#7b4dbd"/>
+      <path d="M78 234L123 258L123 280L78 255Z" fill="#a47ae1"/>
+      <path d="M123 258L322 238L322 258L123 280Z" fill="#8c5bd0"/>
+      <path d="M73 208L270 190L312 210L113 231Z" fill="#a17ae9"/>
+      <path d="M73 208L113 231L113 250L73 228Z" fill="#c2a7f1"/>
+      <path d="M113 231L312 210L312 230L113 250Z" fill="#9565db"/>
+      <path d="M66 180L262 161L304 181L107 202Z" fill="#55a9d7"/>
+      <path d="M66 180L107 202L107 222L66 200Z" fill="#78c1e4"/>
+      <path d="M107 202L304 181L304 201L107 222Z" fill="#58a8d8"/>
+      <path d="M60 150L251 132L295 153L103 174Z" fill="#6bc1a3"/>
+      <path d="M60 150L103 174L103 194L60 171Z" fill="#8ed7bb"/>
+      <path d="M103 174L295 153L295 173L103 194Z" fill="#69b99d"/>
+      <path d="M70 119L260 100L307 121L115 143Z" fill="#ffcf65"/>
+      <path d="M70 119L115 143L115 165L70 141Z" fill="#ffdc82"/>
+      <path d="M115 143L307 121L307 143L115 165Z" fill="#f8c251"/>
+      <path d="M94 81L253 53L309 74L149 103Z" fill="#9870e0"/>
+      <path d="M94 81L149 103L149 129L94 107Z" fill="#7c55c4"/>
+      <path d="M149 103L309 74L309 99L149 129Z" fill="#6f48b7"/>
+      <path d="M149 103L309 74L309 80L149 109Z" fill="#d5c1ff"/>
+      <path d="M111 78L253 53L281 64L137 91Z" fill="#a788ed"/>
+      <text x="258" y="49" font-size="24" fill="#ffcf65" font-weight="900">π</text>
+      <g transform="translate(295 235)">
+        <path d="M0 9L21 0L40 10L18 21Z" fill="#fff"/>
+        <path d="M0 9L18 21L18 42L0 30Z" fill="#e4d7ff"/>
+        <path d="M18 21L40 10L40 31L18 42Z" fill="#c3a8f2"/>
+        <circle cx="10" cy="12" r="2.5" fill="#6f48b7"/>
+        <circle cx="27" cy="15" r="2.5" fill="#6f48b7"/>
+        <circle cx="27" cy="28" r="2.5" fill="#6f48b7"/>
+        <circle cx="27" cy="36" r="2.5" fill="#6f48b7"/>
+      </g>
+      <text x="15" y="135" font-size="22" fill="#a58adf">✦</text>
+      <text x="25" y="187" font-size="20" fill="#a58adf">+</text>
+      <text x="306" y="143" font-size="18" fill="#a58adf">✦</text>
+    </svg>
+  </section>
+</main>
+
+<!-- MODAL LOGIN -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <h2 id="formTitle">Masuk Ruang Guru</h2>
+    <p id="formSubtitle">Masukkan email dan kata sandi akunmu.</p>
+
+    <form id="authForm">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="nama@email.com"
+               autocomplete="email" required>
+      </div>
+
+      <div class="field">
+        <label for="password">Kata sandi</label>
+        <input id="password" type="password" placeholder="Masukkan kata sandi"
+               autocomplete="current-password" required>
+      </div>
+
+      <button class="submit" type="submit" id="submitButton">Masuk</button>
+      <p class="message" id="message" role="status" aria-live="polite"></p>
+      <button type="button" class="cancel" onclick="closeModal()">Kembali</button>
+    </form>
+  </div>
+</div>
+
+<!-- FIREBASE AUTHENTICATION + FIRESTORE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+// FIREBASE CONFIG MILIK KAMU
+const firebaseConfig = {
+  apiKey: "AIzaSyDuVGHdk05SzOdTGuXsqfKZZwF1dYsmQDU",
+  authDomain: "adaluang.firebaseapp.com",
+  projectId: "adaluang",
+  storageBucket: "adaluang.firebasestorage.app",
+  messagingSenderId: "970393246155",
+  appId: "1:970393246155:web:e2f6971c49d85624acbe4e",
+  measurementId: "G-PNKBBCZLMN"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// GANTI HANYA JIKA NAMA FILE DASHBOARD BERBEDA
+const DASHBOARD = {
+  admin: "admin.html",
+  guru: "guru.html",
+  murid: "murid.html"
+};
+
+let selectedRole = "guru";
+let registering = false;
+
+window.openLogin = function(role) {
+  selectedRole = role;
+  registering = false;
+
+  document.getElementById("formTitle").textContent =
+    role === "guru" ? "Masuk Ruang Guru" : "Masuk Ruang Murid";
+
+  document.getElementById("formSubtitle").textContent =
+    "Masukkan email dan kata sandi akunmu.";
+
+  document.getElementById("password").autocomplete = "current-password";
+  document.getElementById("submitButton").textContent = "Masuk";
+  document.getElementById("message").textContent = "";
+  document.getElementById("modal").classList.add("show");
+};
+
+window.openRegister = function() {
+  selectedRole = "murid";
+  registering = true;
+
+  document.getElementById("formTitle").textContent = "Daftar Akun";
+  document.getElementById("formSubtitle").textContent =
+    "Buat akun untuk mulai belajar peluang.";
+
+  document.getElementById("password").autocomplete = "new-password";
+  document.getElementById("submitButton").textContent = "Daftar sekarang";
+  document.getElementById("message").textContent = "";
+  document.getElementById("modal").classList.add("show");
+};
+
+window.closeModal = function() {
+  document.getElementById("modal").classList.remove("show");
+  document.getElementById("authForm").reset();
+};
+
+function showMessage(message, isError = true) {
+  const element = document.getElementById("message");
+  element.textContent = message;
+  element.style.color = isError ? "#b3425a" : "#39856b";
+}
+
+function setLoading(loading) {
+  const button = document.getElementById("submitButton");
+  button.disabled = loading;
+
+  if (loading) {
+    button.textContent = "Memproses...";
+  } else {
+    button.textContent = registering ? "Daftar sekarang" : "Masuk";
+  }
+}
+
+function errorMessage(error) {
+  const messages = {
+    "auth/invalid-email": "Format email tidak valid.",
+    "auth/invalid-credential": "Email atau kata sandi salah.",
+    "auth/email-already-in-use": "Email sudah terdaftar.",
+    "auth/weak-password": "Kata sandi terlalu lemah.",
+    "auth/network-request-failed": "Koneksi bermasalah. Periksa internet.",
+    "permission-denied": "Akses Firestore ditolak. Periksa Firestore Rules.",
+    "unavailable": "Layanan sedang tidak tersedia. Coba lagi."
+  };
+
+  return messages[error.code] || error.message || "Terjadi kesalahan.";
+}
+
+// DAFTAR MURID
+async function registerStudent(email, password) {
+  const credential = await createUserWithEmailAndPassword(
+    auth, email, password
+  );
+
+  const user = credential.user;
+
+  try {
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email,
+      role: "murid",
+      approved: true,
+      createdAt: serverTimestamp()
+    });
+  } catch (error) {
+    // Jangan menghapus akun Authentication otomatis.
+    // Periksa rules jika dokumen profil gagal dibuat.
+    throw new Error(
+      "Akun Authentication berhasil dibuat, tetapi profil Firestore gagal disimpan. " +
+      errorMessage(error)
+    );
+  }
+
+  showMessage("Pendaftaran berhasil! Membuka ruang murid...", false);
+  window.location.replace(DASHBOARD.murid);
+}
+
+// LOGIN DAN PEMERIKSAAN PERAN
+async function loginUser(email, password) {
+  const credential = await signInWithEmailAndPassword(
+    auth, email, password
+  );
+
+  const user = credential.user;
+
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userSnapshot = await getDoc(userRef);
+
+    if (!userSnapshot.exists()) {
+      throw new Error(
+        "Profil tidak ditemukan pada users/" + user.uid +
+        ". Pastikan ID dokumen sama dengan UID Authentication."
       );
     }
 
-    // Admin dikenali dari peran pada dokumen users/{UID}.
-    function isAdmin() {
-      return signedIn()
-        && userExists(request.auth.uid)
-        && get(
-          /databases/$(database)/documents/users/$(request.auth.uid)
-        ).data.role == "admin";
+    const profile = userSnapshot.data();
+
+    if (
+      typeof profile.email !== "string" ||
+      profile.email.toLowerCase() !== user.email.toLowerCase()
+    ) {
+      throw new Error("Email pada profil Firestore tidak cocok.");
     }
 
-    // Guru hanya dapat menggunakan fitur guru jika disetujui admin.
-    function isApprovedTeacher() {
-      return signedIn()
-        && userExists(request.auth.uid)
-        && get(
-          /databases/$(database)/documents/users/$(request.auth.uid)
-        ).data.role == "guru"
-        && get(
-          /databases/$(database)/documents/users/$(request.auth.uid)
-        ).data.approved == true;
+    // ADMIN MASUK MELALUI RUANG GURU
+    if (selectedRole === "guru") {
+      if (profile.role === "admin") {
+        showMessage("Login admin berhasil. Membuka dashboard...", false);
+        window.location.replace(DASHBOARD.admin);
+        return;
+      }
+
+      if (profile.role === "guru") {
+        if (profile.approved !== true) {
+          throw new Error(
+            "Akun guru belum disetujui admin. Silakan tunggu persetujuan."
+          );
+        }
+
+        showMessage("Login guru berhasil. Membuka dashboard...", false);
+        window.location.replace(DASHBOARD.guru);
+        return;
+      }
+
+      throw new Error(
+        "Akun ini bukan akun guru atau admin. Silakan pilih Ruang Murid."
+      );
     }
 
-    // =====================================
-    // KOLEKSI USERS
-    // =====================================
-
-    match /users/{uid} {
-
-      // Pengguna hanya dapat membuat profil untuk UID miliknya.
-      // Pendaftaran umum hanya mengizinkan role guru atau murid.
-      // Role admin harus ditetapkan secara tepercaya melalui Console
-      // atau backend tepercaya, bukan dari formulir pendaftaran.
-      allow create: if signedIn()
-        && request.auth.uid == uid
-        && request.resource.data.role in ["guru", "murid"]
-        && request.resource.data.approved
-          == (request.resource.data.role == "murid")
-        && request.resource.data.email == request.auth.token.email;
-
-      // Pengguna membaca profilnya sendiri.
-      // Admin dapat membaca profil semua pengguna.
-      allow read: if signedIn()
-        && (
-          request.auth.uid == uid
-          || isAdmin()
+    // LOGIN MURID
+    if (selectedRole === "murid") {
+      if (profile.role !== "murid") {
+        throw new Error(
+          "Akun ini bukan akun murid. Silakan pilih Ruang Guru."
         );
+      }
 
-      // Admin hanya boleh mengubah status persetujuan.
-      // Field lain, termasuk role dan email, tidak dapat diubah
-      // melalui operasi update ini.
-      allow update: if isAdmin()
-        && request.resource.data.diff(resource.data)
-          .affectedKeys().hasOnly(["approved"])
-        && request.resource.data.approved is bool;
-
-      // Hanya admin yang dapat menghapus profil pengguna.
-      allow delete: if isAdmin();
+      showMessage("Login murid berhasil. Membuka ruang belajar...", false);
+      window.location.replace(DASHBOARD.murid);
+      return;
     }
 
-    // =====================================
-    // KOLEKSI CLASSES
-    // =====================================
+    throw new Error("Pilihan ruang belajar tidak valid.");
 
-    match /classes/{classId} {
-
-      // Guru yang sudah disetujui dapat membuat kelas
-      // atas nama UID miliknya sendiri.
-      allow create: if isApprovedTeacher()
-        && request.resource.data.teacherId == request.auth.uid;
-
-      // Admin dapat membaca seluruh kelas.
-      // Guru hanya dapat membaca kelas miliknya.
-      allow read: if isAdmin()
-        || (
-          isApprovedTeacher()
-          && resource.data.teacherId == request.auth.uid
-        );
-
-      // Admin dapat mengubah atau menghapus kelas mana pun.
-      // Guru hanya dapat mengubah atau menghapus kelas miliknya.
-      allow update, delete: if isAdmin()
-        || (
-          isApprovedTeacher()
-          && resource.data.teacherId == request.auth.uid
-        );
-    }
-
-    // =====================================
-    // KOLEKSI MATERIALS
-    // =====================================
-
-    match /materials/{materialId} {
-
-      // Semua pengguna yang login dapat membaca materi.
-      allow read: if signedIn();
-
-      // Hanya admin yang dapat menambah, mengubah,
-      // atau menghapus materi.
-      allow create, update, delete: if isAdmin();
-    }
-
-    // =====================================
-    // TOLAK AKSES KE KOLEKSI LAIN
-    // =====================================
-
-    match /{document=**} {
-      allow read, write: if false;
-    }
+  } catch (error) {
+    await signOut(auth);
+    throw error;
   }
 }
+
+// TOMBOL MASUK DAN DAFTAR
+document.getElementById("authForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
+
+  setLoading(true);
+  showMessage("");
+
+  try {
+    if (registering) {
+      await registerStudent(email, password);
+    } else {
+      await loginUser(email, password);
+    }
+  } catch (error) {
+    console.error("Firebase error:", error);
+    showMessage(errorMessage(error));
+  } finally {
+    setLoading(false);
+  }
+});
+
+// KLIK DI LUAR KARTU UNTUK MENUTUP MODAL
+document.getElementById("modal").addEventListener("click", event => {
+  if (event.target === event.currentTarget) {
+    window.closeModal();
+  }
+});
+</script>
+
+</body>
+</html>
