@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,11 +6,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ayo Dalami Peluang! — ADALUANG</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--purple:#8056d9;--dark:#35256c;--muted:#8984a5}
 body{min-height:100vh;font-family:Nunito,sans-serif;color:var(--dark);overflow-x:hidden;background:radial-gradient(ellipse at 3% 28%,#f0e4ff 0%,transparent 34%),radial-gradient(ellipse at 99% 78%,#fff0f8 0%,transparent 32%),#fcfaff}
 button,input,textarea{font:inherit}
+button{cursor:pointer}
 .page{min-height:100vh;display:grid;grid-template-columns:1.04fr 1.12fr .91fr;align-items:center;gap:30px;padding:55px 7.8%}
 .pill{display:inline-block;padding:10px 17px;border-radius:30px;background:#f0e7ff;color:#8a66cf;font-size:11px;font-weight:900;letter-spacing:2px;margin-bottom:32px}
 h1{font-size:clamp(43px,3.8vw,62px);line-height:1.06;letter-spacing:-1.5px;font-weight:900;color:#35256c}
@@ -21,7 +24,7 @@ h1 span{display:block;color:#8056d9}
 .center h2{font-size:28px;font-weight:900;line-height:1.4}
 .sub{color:#8984a5;font-size:16px;font-weight:700;margin:2px 0 21px}
 .rooms{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.room{border:1px solid transparent;border-radius:21px;min-width:0;padding:17px 13px 15px;text-align:left;cursor:pointer;color:#352d55;transition:.2s}
+.room{border:1px solid transparent;border-radius:21px;min-width:0;padding:17px 13px 15px;text-align:left;color:#352d55;transition:.2s}
 .room:hover{transform:translateY(-4px);box-shadow:0 10px 22px #60468b15}
 .teacher{background:linear-gradient(145deg,#f8f2ff,#eee7ff);border-color:#eae0fb}
 .student{background:linear-gradient(145deg,#eff8ff,#e0f1ff);border-color:#deedfb}
@@ -32,7 +35,7 @@ h1 span{display:block;color:#8056d9}
 .arrow{margin-top:7px;height:31px;width:31px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:white;background:#b89be9;font-size:21px}
 .student .arrow{background:#79b8e9}
 .register{margin-top:28px;color:#8984a5;font-size:12px}
-.register button{background:none;border:0;color:#8056d9;cursor:pointer;font-weight:900;margin-left:5px}
+.register button{background:none;border:0;color:#8056d9;font-weight:900;margin-left:5px}
 .right{text-align:center}
 .quote{font-size:15px;font-style:italic;line-height:1.8;color:#8984a5;margin-bottom:48px}
 .formula{font-size:19px;font-style:italic;color:#a087d6;text-align:left}
@@ -46,11 +49,12 @@ h1 span{display:block;color:#8056d9}
 .field label{display:block;font-size:13px;font-weight:800;margin-bottom:7px}
 .field input,.field textarea{width:100%;padding:13px;border:1px solid #e6def4;border-radius:12px;outline:none}
 .field input:focus,.field textarea:focus{border-color:var(--purple)}
-.submit,.secondary,.danger,.small-btn{border:0;border-radius:12px;padding:11px 14px;font-weight:900;cursor:pointer}
+.submit,.secondary,.danger,.small-btn{border:0;border-radius:12px;padding:11px 14px;font-weight:900}
 .submit{width:100%;background:var(--purple);color:white}
+.submit:disabled{opacity:.6;cursor:wait}
 .secondary,.small-btn{background:#f0e7ff;color:#6e49bd}
 .danger{background:#fff0f2;color:#b3425a}
-.cancel{width:100%;background:none;border:0;padding:12px;color:var(--muted);cursor:pointer}
+.cancel{width:100%;background:none;border:0;padding:12px;color:var(--muted)}
 .message{font-size:13px;color:#b3425a;margin-top:12px;line-height:1.5}
 .ok{color:#23866b!important}
 .hidden{display:none!important}
@@ -60,6 +64,7 @@ h1 span{display:block;color:#8056d9}
 .app-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
 .brand{font-size:24px;font-weight:900}
 .brand span{color:var(--purple)}
+.userline{font-size:13px;font-weight:800;margin-bottom:6px;text-align:right}
 .panel{background:white;border:1px solid #f1ecf8;border-radius:24px;padding:24px;margin-bottom:18px;box-shadow:0 15px 45px #664c9910}
 .panel h2{font-size:25px;margin-bottom:7px}
 .muted{color:var(--muted);font-size:14px;line-height:1.6}
@@ -72,7 +77,8 @@ h1 span{display:block;color:#8056d9}
 .item h3{margin-bottom:8px}
 .item p{margin:7px 0}
 .actions,.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.tabs button{background:#f4effc;color:#6e49bd;border:0;border-radius:10px;padding:9px 12px;font-weight:900;cursor:pointer}
+.tabs button{background:#f4effc;color:#6e49bd;border:0;border-radius:10px;padding:10px 16px;font-weight:900}
+.tabs button.active{background:#8056d9;color:white}
 .code{display:inline-block;font-weight:900;letter-spacing:2px;color:#6845ae;background:#f0e7ff;padding:8px 12px;border-radius:10px;margin:6px 0}
 .tag{display:inline-block;font-size:11px;font-weight:900;border-radius:20px;padding:5px 9px;background:#f0e7ff;color:#6e49bd}
 .pending{background:#fff3d7;color:#946b08}
@@ -81,6 +87,10 @@ h1 span{display:block;color:#8056d9}
 .inline{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}
 .inline .full{grid-column:1/-1}
 .empty{padding:22px;border:1px dashed #d9c9f2;border-radius:16px;color:var(--muted);font-size:14px;text-align:center}
+.student-menu{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+.student-menu button{flex:1;min-width:130px;padding:14px 18px;border:1px solid #e8def8;border-radius:14px;background:#f4effc;color:#6e49bd;font-weight:900;font-size:15px}
+.student-menu button.active{background:#8056d9;color:white;border-color:#8056d9}
+.student-content{margin-top:10px}
 @media(max-width:1100px){.page{grid-template-columns:1fr 1.05fr;padding:45px 6%}.right{display:none}}
 @media(max-width:650px){
 .page{display:flex;flex-direction:column;gap:28px;padding:35px 20px}
@@ -97,11 +107,13 @@ h1{font-size:45px}
 .inline,.items,.stats{grid-template-columns:1fr}
 .app{padding:14px}
 .panel{padding:18px}
+.app-top{align-items:flex-start}
+.userline{max-width:180px}
 }
 </style>
 </head>
-<body>
 
+<body>
 <div id="landing">
 <main class="page">
 <section class="left">
@@ -133,20 +145,20 @@ h1{font-size:45px}
 <h2>Selamat datang!</h2>
 <p class="sub">Pilih ruang belajarmu.</p>
 <div class="rooms">
-<button class="room teacher" onclick="openTeacher()">
+<button type="button" class="room teacher" onclick="openTeacher()">
 <div class="avatar">👩🏻‍🏫</div>
 <h3>Ruang Guru</h3>
 <p>Kelola kelas dengan kode kelas</p>
 <div class="arrow">➜</div>
 </button>
-<button class="room student" onclick="openStudent()">
+<button type="button" class="room student" onclick="openStudent()">
 <div class="avatar">🧑🏻‍🎓</div>
 <h3>Ruang Murid</h3>
 <p>Masuk dengan nama dan kode kelas</p>
 <div class="arrow">➜</div>
 </button>
 </div>
-<div class="register">Guru belum punya akun?<button onclick="openRegister()">Daftar sekarang</button></div>
+<div class="register">Guru belum punya akun?<button type="button" onclick="openRegister()">Daftar sekarang</button></div>
 </section>
 
 <section class="right">
@@ -199,7 +211,7 @@ h1{font-size:45px}
 <div class="brand">ADA<span>LUANG</span></div>
 <div>
 <div class="userline" id="userLine"></div>
-<button class="small-btn" onclick="logout()">Keluar</button>
+<button type="button" class="small-btn" onclick="logout()">Keluar</button>
 </div>
 </header>
 <main class="content" id="content"></main>
@@ -210,15 +222,15 @@ import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-ap
 import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import{getFirestore,collection,doc,getDoc,getDocs,addDoc,setDoc,updateDoc,deleteDoc,query,where,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-// Konfigurasi Firebase
 const ADMIN_EMAIL='umumbgt5@gmail.com';
+
 const firebaseConfig={
 apiKey:'AIzaSyDuVGHdk05SzOdTGuXsqfKZZwF1dYsmQDU',
 authDomain:'adaluang.firebaseapp.com',
 projectId:'adaluang',
 storageBucket:'adaluang.firebasestorage.app',
 messagingSenderId:'970393246155',
-appId:'1:970393246155:web:e2f6971c49d85624acbe4e',
+appId:'1:970393246155:web:e2f6971c49d85624acbe4',
 measurementId:'G-PNKBBCZLMN'
 };
 
@@ -226,9 +238,14 @@ const appFirebase=initializeApp(firebaseConfig);
 const auth=getAuth(appFirebase);
 const db=getFirestore(appFirebase);
 const $=id=>document.getElementById(id);
-let mode='login',profile=null,student=null;
 
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let mode='login';
+let profile=null;
+let student=null;
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({
+'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[c]));
 
 function say(t,ok=false){
 $('message').textContent=t;
@@ -241,10 +258,17 @@ $('modalSubtitle').textContent=subtitle;
 $('submit').textContent=button;
 $('form').reset();
 say('');
-for(const [k,id]of Object.entries({name:'nameBox',email:'emailBox',password:'passBox',code:'codeBox'})){
+
+for(const [k,id] of Object.entries({
+name:'nameBox',
+email:'emailBox',
+password:'passBox',
+code:'codeBox'
+})){
 $(id).classList.toggle('hidden',!fields.includes(k));
 $(k).required=fields.includes(k);
 }
+
 $('modal').classList.add('show');
 }
 
@@ -270,22 +294,30 @@ if(e.target===$('modal'))closeModal();
 });
 
 function errText(e){
-return({
+const errors={
 'auth/invalid-credential':'Email atau kata sandi salah.',
 'auth/email-already-in-use':'Email sudah terdaftar.',
 'auth/weak-password':'Kata sandi minimal 6 karakter.',
 'auth/invalid-email':'Format email tidak valid.',
 'permission-denied':'Akses ditolak. Periksa Firestore Rules.'
-})[e.code]||e.message||'Terjadi kesalahan.';
+};
+return errors[e.code]||e.message||'Terjadi kesalahan.';
 }
 
 async function getProfile(u){
 const r=doc(db,'users',u.uid);
 const s=await getDoc(r);
+
 if(s.exists())return s.data();
 
 if((u.email||'').toLowerCase()===ADMIN_EMAIL.toLowerCase()){
-const p={nama:'Admin ADALUANG',email:u.email,role:'admin',status:'approved',createdAt:serverTimestamp()};
+const p={
+nama:'Admin ADALUANG',
+email:u.email,
+role:'admin',
+status:'approved',
+createdAt:serverTimestamp()
+};
 await setDoc(r,p);
 return p;
 }
@@ -295,15 +327,22 @@ return null;
 $('form').addEventListener('submit',async e=>{
 e.preventDefault();
 $('submit').disabled=true;
+
 try{
 if(mode==='register'){
 const nama=$('name').value.trim();
 const email=$('email').value.trim().toLowerCase();
 const password=$('password').value;
+
 if(!nama)throw Error('Nama wajib diisi.');
 if(email===ADMIN_EMAIL.toLowerCase())throw Error('Email admin tidak bisa digunakan untuk pendaftaran guru.');
+
 const c=await createUserWithEmailAndPassword(auth,email,password);
-await setDoc(doc(db,'users',c.user.uid),{nama,email,role:'guru',status:'pending',createdAt:serverTimestamp()});
+
+await setDoc(doc(db,'users',c.user.uid),{
+nama,email,role:'guru',status:'pending',createdAt:serverTimestamp()
+});
+
 await signOut(auth);
 say('Pendaftaran berhasil. Tunggu persetujuan admin.',true);
 return;
@@ -312,18 +351,28 @@ return;
 if(mode==='student'){
 const nama=$('name').value.trim();
 const kode=$('code').value.trim().toUpperCase();
+
 if(!nama||!kode)throw Error('Nama dan kode kelas wajib diisi.');
+
 const s=await getDocs(collection(db,'classes'));
 const d=s.docs.find(x=>(x.data().kode||'').toUpperCase()===kode);
+
 if(!d)throw Error('Kode kelas tidak ditemukan. Periksa kembali kode dari guru.');
+
 student={nama,kode,id:d.id,data:d.data()};
 closeModal();
 renderStudent();
 return;
 }
 
-await signInWithEmailAndPassword(auth,$('email').value.trim().toLowerCase(),$('password').value);
+await signInWithEmailAndPassword(
+auth,
+$('email').value.trim().toLowerCase(),
+$('password').value
+);
+
 closeModal();
+
 }catch(e){
 say(errText(e));
 }finally{
@@ -332,32 +381,42 @@ $('submit').disabled=false;
 });
 
 onAuthStateChanged(auth,async u=>{
-if(!u){profile=null;return;}
+if(!u){
+profile=null;
+return;
+}
+
 try{
 let p=await getProfile(u);
+
 if(!p){
 await signOut(auth);
 alert('Profil akun tidak ditemukan. Daftar akun guru terlebih dahulu.');
 return;
 }
+
 if(u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase()&&p.role!=='admin'){
 await updateDoc(doc(db,'users',u.uid),{role:'admin',status:'approved'});
 p.role='admin';
 p.status='approved';
 }
+
 if(p.role==='guru'&&p.status!=='approved'){
 await signOut(auth);
 alert(p.status==='rejected'?'Akun guru ditolak admin.':'Akun guru masih menunggu persetujuan admin.');
 return;
 }
+
 if(!['admin','guru'].includes(p.role)){
 await signOut(auth);
 alert('Peran akun tidak valid.');
 return;
 }
+
 profile={...p,uid:u.uid,email:u.email};
 student=null;
 showDashboard();
+
 }catch(e){
 alert(errText(e));
 await signOut(auth);
@@ -372,7 +431,8 @@ $('userLine').textContent=label;
 
 function showDashboard(){
 showShell((profile.nama||profile.email)+' · '+(profile.role==='admin'?'Admin':'Guru'));
-profile.role==='admin'?adminDashboard():teacherDashboard();
+if(profile.role==='admin')adminDashboard();
+else teacherDashboard();
 }
 
 window.logout=async()=>{
@@ -387,24 +447,34 @@ function item(title,body){
 return `<article class="item"><h3>${esc(title||'Kelas')}</h3>${body}</article>`;
 }
 
+/* =========================
+   DASHBOARD ADMIN
+========================= */
+
 async function adminDashboard(){
 $('content').innerHTML=`
 <section class="panel">
 <h2>Dashboard Admin</h2>
-<p class="muted">Kelola pendaftaran guru, pantau status akun, dan atur materi pembelajaran ADALUANG.</p>
-<div id="adminStats" class="stats"><div class="empty">Memuat statistik...</div></div>
-<div class="tabs">
-<button onclick="adminTab('guru')">Manajemen Guru</button>
-<button onclick="adminTab('materi')">Manajemen Materi</button>
-<button onclick="adminTab('kelas')">Manajemen Kelas</button>
+<p class="muted">Kelola pendaftaran guru, pantau status akun, dan kelola kelas ADALUANG.</p>
+
+<div id="adminStats" class="stats">
+<div class="empty">Memuat statistik...</div>
 </div>
+
+<div class="tabs">
+<button type="button" onclick="adminTab('guru')">Manajemen Guru</button>
+<button type="button" onclick="adminTab('kelas')">Manajemen Kelas</button>
+</div>
+
 <div id="adminSection"></div>
 </section>`;
 
 try{
 const us=await getDocs(collection(db,'users'));
 const cs=await getDocs(collection(db,'classes'));
+
 const teachers=us.docs.map(d=>d.data()).filter(x=>x.role==='guru');
+
 const total=teachers.length;
 const active=teachers.filter(x=>x.status==='approved').length;
 const pending=teachers.filter(x=>x.status==='pending').length;
@@ -418,6 +488,7 @@ $('adminStats').innerHTML=`
 <div class="stat"><strong>${cs.size}</strong><span>Total Kelas</span></div>`;
 
 await adminTab('guru');
+
 }catch(e){
 $('adminStats').innerHTML=`<div class="empty">Gagal memuat statistik: ${esc(errText(e))}</div>`;
 $('adminSection').innerHTML=`<div class="empty">Periksa izin akses Firestore lalu muat ulang halaman.</div>`;
@@ -427,39 +498,37 @@ $('adminSection').innerHTML=`<div class="empty">Periksa izin akses Firestore lal
 window.adminTab=async tab=>{
 const el=$('adminSection');
 el.innerHTML='<div class="empty">Memuat…</div>';
+
 try{
 if(tab==='guru'){
 const s=await getDocs(collection(db,'users'));
 const ts=s.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.role==='guru');
-el.innerHTML=ts.length?`<div class="items">${ts.map(t=>item(t.nama,`
+
+el.innerHTML=ts.length
+?`<div class="items">${ts.map(t=>item(t.nama,`
 <p class="muted">${esc(t.email)}</p>
 <span class="tag ${esc(t.status)}">${esc(t.status)}</span>
 <div class="actions">
-${t.status!=='approved'?`<button class="small-btn" onclick="setStatus('${t.id}','approved')">Terima</button>`:''}
-${t.status!=='rejected'?`<button class="danger" onclick="setStatus('${t.id}','rejected')">Tolak</button>`:''}
-</div>`)).join('')}</div>`:'<div class="empty">Belum ada akun guru.</div>';
-
-}else if(tab==='materi'){
-el.innerHTML=`
-<h3>Tambah materi</h3>
-<form id="matForm" class="inline">
-<div class="field"><label>Judul materi</label><input id="mtitle" required maxlength="120"></div>
-<div class="field"><label>Link materi (opsional)</label><input id="mlink" type="url" placeholder="https://..."></div>
-<div class="field full"><label>Deskripsi</label><textarea id="mdesc" rows="3"></textarea></div>
-<div class="full"><button class="submit">Simpan materi</button><p id="matMsg" class="message"></p></div>
-</form>
-<div id="materials" class="items"></div>`;
-$('matForm').addEventListener('submit',saveMaterial);
-await loadMaterials('materials',true);
+${t.status!=='approved'?`<button type="button" class="small-btn" onclick="setStatus('${t.id}','approved')">Terima</button>`:''}
+${t.status!=='rejected'?`<button type="button" class="danger" onclick="setStatus('${t.id}','rejected')">Tolak</button>`:''}
+</div>
+`)).join('')}</div>`
+:'<div class="empty">Belum ada akun guru.</div>';
 
 }else{
 const s=await getDocs(collection(db,'classes'));
-el.innerHTML=s.size?`<div class="items">${s.docs.map(d=>item(d.data().nama,`
+
+el.innerHTML=s.size
+?`<div class="items">${s.docs.map(d=>item(d.data().nama,`
 <p class="muted">${esc(d.data().ownerEmail)}</p>
 <div class="code">${esc(d.data().kode)}</div>
-<div class="actions"><button class="danger" onclick="deleteClass('${d.id}')">Hapus kelas</button></div>
-`)).join('')}</div>`:'<div class="empty">Belum ada kelas.</div>';
+<div class="actions">
+<button type="button" class="danger" onclick="deleteClass('${d.id}')">Hapus kelas</button>
+</div>
+`)).join('')}</div>`
+:'<div class="empty">Belum ada kelas.</div>';
 }
+
 }catch(e){
 el.innerHTML=`<div class="empty">${esc(errText(e))}</div>`;
 }
@@ -468,89 +537,51 @@ el.innerHTML=`<div class="empty">${esc(errText(e))}</div>`;
 window.setStatus=async(id,status)=>{
 try{
 await updateDoc(doc(db,'users',id),{status});
-adminTab('guru');
-}catch(e){alert(errText(e));}
-};
-
-async function saveMaterial(e){
-e.preventDefault();
-try{
-await addDoc(collection(db,'materials'),{
-judul:$('mtitle').value.trim(),
-link:$('mlink').value.trim(),
-deskripsi:$('mdesc').value.trim(),
-ownerUid:profile.uid,
-createdAt:serverTimestamp()
-});
-$('matMsg').textContent='Materi tersimpan.';
-$('matMsg').classList.add('ok');
-$('matForm').reset();
-await loadMaterials('materials',true);
-}catch(e){$('matMsg').textContent=errText(e);}
+await adminTab('guru');
+}catch(e){
+alert(errText(e));
 }
-
-async function loadMaterials(id,admin=false,classId=null){
-const s=await getDocs(collection(db,'materials'));
-const ms=s.docs.map(d=>({id:d.id,...d.data()})).filter(m=>!classId||!m.classId||m.classId===classId);
-
-$(id).innerHTML=ms.length?ms.map(m=>item(m.judul,`
-<p class="muted">${esc(m.deskripsi||'')}</p>
-${m.link?`<p><a href="${esc(m.link)}" target="_blank" rel="noopener noreferrer">Buka materi ↗</a></p>`:''}
-${admin?`<div class="actions"><button class="small-btn" onclick="editMaterial('${m.id}')">Edit</button><button class="danger" onclick="deleteMaterial('${m.id}')">Hapus</button></div>`:''}
-`)).join(''):'<div class="empty">Belum ada materi.</div>';
-}
-
-window.editMaterial=async id=>{
-const s=await getDoc(doc(db,'materials',id));
-if(!s.exists())return;
-const m=s.data();
-$('mtitle').value=m.judul||'';
-$('mlink').value=m.link||'';
-$('mdesc').value=m.deskripsi||'';
-$('matMsg').textContent='Mode edit: klik Simpan materi untuk memperbarui.';
-
-$('matForm').onsubmit=async e=>{
-e.preventDefault();
-try{
-await updateDoc(doc(db,'materials',id),{
-judul:$('mtitle').value.trim(),
-link:$('mlink').value.trim(),
-deskripsi:$('mdesc').value.trim()
-});
-$('matForm').reset();
-$('matForm').onsubmit=saveMaterial;
-await loadMaterials('materials',true);
-}catch(e){$('matMsg').textContent=errText(e);}
-};
-};
-
-window.deleteMaterial=async id=>{
-if(!confirm('Hapus materi ini?'))return;
-try{
-await deleteDoc(doc(db,'materials',id));
-await loadMaterials('materials',true);
-}catch(e){alert(errText(e));}
 };
 
 window.deleteClass=async id=>{
 if(!confirm('Hapus kelas ini?'))return;
+
 try{
 await deleteDoc(doc(db,'classes',id));
-adminTab('kelas');
-}catch(e){alert(errText(e));}
+await adminTab('kelas');
+}catch(e){
+alert(errText(e));
+}
 };
+
+/* =========================
+   DASHBOARD GURU
+========================= */
 
 async function teacherDashboard(){
 $('content').innerHTML=`
 <section class="panel">
 <h2>Ruang Guru</h2>
 <p class="muted">Guru yang disetujui dapat membuat kelas dan membagikan kode kepada murid. Guru tidak menambah atau mengedit materi.</p>
+
 <form id="classForm" class="inline">
-<div class="field"><label>Nama kelas</label><input id="cname" required maxlength="80" placeholder="Contoh: X-1 Peluang"></div>
-<div class="field"><label>Keterangan (opsional)</label><input id="cdesc" maxlength="120" placeholder="Matematika"></div>
-<div class="full"><button class="submit">+ Buat kelas</button><p id="cmsg" class="message"></p></div>
+<div class="field">
+<label>Nama kelas</label>
+<input id="cname" required maxlength="80" placeholder="Contoh: X-1 Peluang">
+</div>
+
+<div class="field">
+<label>Keterangan (opsional)</label>
+<input id="cdesc" maxlength="120" placeholder="Matematika">
+</div>
+
+<div class="full">
+<button class="submit">+ Buat kelas</button>
+<p id="cmsg" class="message"></p>
+</div>
 </form>
 </section>
+
 <section class="panel">
 <h2>Kelas Saya</h2>
 <p class="muted">Bagikan kode kelas di bawah kepada murid.</p>
@@ -567,10 +598,14 @@ return Math.random().toString(36).slice(2,8).toUpperCase();
 
 async function createClass(e){
 e.preventDefault();
+
 try{
 const all=await getDocs(collection(db,'classes'));
 let kode=genCode();
-while(all.docs.some(d=>d.data().kode===kode))kode=genCode();
+
+while(all.docs.some(d=>d.data().kode===kode)){
+kode=genCode();
+}
 
 await addDoc(collection(db,'classes'),{
 nama:$('cname').value.trim(),
@@ -584,22 +619,31 @@ createdAt:serverTimestamp()
 $('cmsg').textContent='Kelas berhasil dibuat. Kode: '+kode;
 $('cmsg').classList.add('ok');
 $('classForm').reset();
+
 await loadClasses();
-}catch(e){$('cmsg').textContent=errText(e);}
+
+}catch(e){
+$('cmsg').textContent=errText(e);
+}
 }
 
 async function loadClasses(){
-const s=await getDocs(query(collection(db,'classes'),where('ownerUid','==',profile.uid)));
+const s=await getDocs(query(
+collection(db,'classes'),
+where('ownerUid','==',profile.uid)
+));
 
-$('myClasses').innerHTML=s.size?s.docs.map(d=>item(d.data().nama,`
+$('myClasses').innerHTML=s.size
+?s.docs.map(d=>item(d.data().nama,`
 <p class="muted">${esc(d.data().deskripsi||'')}</p>
 <div class="code">${esc(d.data().kode)}</div>
 <p class="muted">Bagikan kode ini kepada murid.</p>
 <div class="actions">
-<button class="small-btn" onclick="copyCode('${esc(d.data().kode)}')">Salin kode</button>
-<button class="danger" onclick="teacherDeleteClass('${d.id}')">Hapus kelas</button>
+<button type="button" class="small-btn" onclick="copyCode('${esc(d.data().kode)}')">Salin kode</button>
+<button type="button" class="danger" onclick="teacherDeleteClass('${d.id}')">Hapus kelas</button>
 </div>
-`)).join(''):'<div class="empty">Kamu belum membuat kelas.</div>';
+`)).join('')
+:'<div class="empty">Kamu belum membuat kelas.</div>';
 }
 
 window.copyCode=async c=>{
@@ -613,145 +657,90 @@ prompt('Salin kode kelas:',c);
 
 window.teacherDeleteClass=async id=>{
 if(!confirm('Hapus kelas ini?'))return;
+
 try{
 await deleteDoc(doc(db,'classes',id));
-loadClasses();
-}catch(e){alert(errText(e));}
+await loadClasses();
+}catch(e){
+alert(errText(e));
+}
 };
 
-// DASHBOARD MURID
+/* =========================
+   DASHBOARD MURID
+========================= */
+
 async function renderStudent(){
 showShell(student.nama+' · Murid · Kelas '+student.kode);
 
 $('content').innerHTML=`
-<section style="
-background:linear-gradient(120deg,#7650c9,#a17be8);
-border-radius:26px;
-padding:30px;
-color:white;
-margin-bottom:25px;
-position:relative;
-overflow:hidden;
-box-shadow:0 15px 35px #7650c925;
-">
-<div style="font-size:12px;font-weight:900;letter-spacing:2px;opacity:.85">
-RUANG BELAJAR ADALUANG
-</div>
-
-<h2 style="font-size:30px;margin:15px 0 8px;color:white">
-Halo, ${esc(student.nama)}! 👋
-</h2>
-
-<p style="font-size:14px;opacity:.9">
-Selamat datang di kelas <strong>${esc(student.data.nama)}</strong>.
-Yuk, mulai belajar!
-</p>
-
-<div style="
-display:inline-block;
-margin-top:20px;
-padding:10px 17px;
-background:#ffffff25;
-border:1px solid #ffffff55;
-border-radius:12px;
-font-weight:900;
-letter-spacing:2px;
-">
-KODE KELAS: ${esc(student.kode)}
-</div>
-
-<div style="
-position:absolute;
-right:25px;
-bottom:-35px;
-font-size:115px;
-opacity:.13;
-">📚</div>
+<section class="panel">
+<h2>Halo, ${esc(student.nama)}! 👋</h2>
+<p class="muted">Selamat datang di kelas <strong>${esc(student.data.nama)}</strong>.</p>
+<div class="code">Kode kelas: ${esc(student.kode)}</div>
+<p class="muted">${esc(student.data.deskripsi||'')}</p>
 </section>
 
-<div style="margin:25px 0 17px">
-<h2 style="font-size:23px;margin-bottom:5px">Ruang Belajarmu</h2>
-<p class="muted">Pilih kegiatan yang ingin kamu pelajari.</p>
+<section class="panel">
+<h2>Ruang Belajar</h2>
+<p class="muted">Pilih menu yang ingin kamu buka.</p>
+
+<div class="student-menu">
+<button type="button" id="btnMateri" onclick="studentTab('materi')">📚 Materi</button>
+<button type="button" id="btnSoal" onclick="studentTab('soal')">✏️ Soal</button>
 </div>
 
-<div style="
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:16px;
-">
-<button onclick="studentTab('materi')" style="
-border:1px solid #e7dcfa;
-background:linear-gradient(145deg,#f7f1ff,#eee5ff);
-border-radius:22px;
-padding:24px 18px;
-text-align:left;
-cursor:pointer;
-color:#35256c;
-min-height:160px;
-">
-<div style="font-size:35px;margin-bottom:13px">📖</div>
-<div style="font-size:19px;font-weight:900">Materi</div>
-<div style="font-size:12px;color:#8984a5;margin-top:6px">
-Pelajari materi pembelajaran
-</div>
-<div style="margin-top:13px;color:#8056d9;font-weight:900">
-Buka materi →
-</div>
-</button>
-
-<button onclick="studentTab('soal')" style="
-border:1px solid #dceafa;
-background:linear-gradient(145deg,#eff8ff,#e2f1ff);
-border-radius:22px;
-padding:24px 18px;
-text-align:left;
-cursor:pointer;
-color:#294c75;
-min-height:160px;
-">
-<div style="font-size:35px;margin-bottom:13px">✏️</div>
-<div style="font-size:19px;font-weight:900">Soal</div>
-<div style="font-size:12px;color:#718ba7;margin-top:6px">
-Latihan dan uji pemahamanmu
-</div>
-<div style="margin-top:13px;color:#438ac5;font-weight:900">
-Kerjakan soal →
-</div>
-</button>
-</div>
-
-<div id="studentSection"></div>
+<div id="studentSection" class="student-content"></div>
+</section>`;
 }
 
-window.studentTab=async function(tab){
-const el=$('studentSection');
+window.studentTab=async tab=>{
+const section=$('studentSection');
+const btnMateri=$('btnMateri');
+const btnSoal=$('btnSoal');
+
+btnMateri.classList.toggle('active',tab==='materi');
+btnSoal.classList.toggle('active',tab==='soal');
 
 if(tab==='materi'){
-el.innerHTML=`
-<section class="panel" style="margin-top:25px">
-<h2>📖 Materi Pembelajaran</h2>
-<p class="muted">Pelajari materi yang diberikan oleh gurumu.</p>
-<div id="studentMaterials" class="items"></div>
-</section>
-`;
+section.innerHTML=`
+<h3>Materi Pembelajaran</h3>
+<p class="muted">Pelajari materi yang tersedia untuk kelasmu.</p>
+<div id="studentMaterials" class="items">
+<div class="empty">Memuat materi...</div>
+</div>`;
 
 try{
 await loadMaterials('studentMaterials',false,student.id);
 }catch(e){
-$('studentMaterials').innerHTML=
-'<div class="empty">'+esc(errText(e))+'</div>';
+$('studentMaterials').innerHTML=`<div class="empty">${esc(errText(e))}</div>`;
 }
 
 }else if(tab==='soal'){
-el.innerHTML=`
-<section class="panel" style="margin-top:25px">
-<h2>✏️ Latihan Soal</h2>
+section.innerHTML=`
+<h3>Latihan Soal</h3>
 <p class="muted">Kerjakan latihan soal untuk menguji pemahamanmu.</p>
-<div class="empty">Belum ada soal yang tersedia.</div>
-</section>
-`;
+<div class="empty">Belum ada soal yang tersedia.</div>`;
 }
 };
+
+/* =========================
+   MATERI UNTUK MURID
+========================= */
+
+async function loadMaterials(id,admin=false,classId=null){
+const s=await getDocs(collection(db,'materials'));
+
+const ms=s.docs.map(d=>({id:d.id,...d.data()}))
+.filter(m=>!classId||!m.classId||m.classId===classId);
+
+$(id).innerHTML=ms.length
+?ms.map(m=>item(m.judul,`
+<p class="muted">${esc(m.deskripsi||'')}</p>
+${m.link?`<p><a href="${esc(m.link)}" target="_blank" rel="noopener noreferrer">Buka materi ↗</a></p>`:''}
+`)).join('')
+:'<div class="empty">Belum ada materi untuk saat ini.</div>';
+}
 
 </script>
 </body>
