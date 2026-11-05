@@ -90,6 +90,20 @@ h1 span{display:block;color:#8056d9}
 .student-menu button{flex:1;min-width:130px;padding:14px 18px;border:1px solid #e8def8;border-radius:14px;background:#f4effc;color:#6e49bd;font-weight:900;font-size:15px}
 .student-menu button.active{background:#8056d9;color:white;border-color:#8056d9}
 .student-content{margin-top:10px}
+
+/* Kartu menu materi */
+.materi-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:18px}
+.materi-card{background:linear-gradient(145deg,#f8f2ff,#eee7ff);border:2px solid #eae0fb;border-radius:20px;padding:24px 20px;text-align:center;cursor:pointer;transition:transform .2s,box-shadow .2s;font-family:Nunito,sans-serif}
+.materi-card:hover{transform:translateY(-5px);box-shadow:0 12px 28px #60468b22}
+.materi-card .materi-icon{font-size:48px;display:block;margin-bottom:12px;line-height:1}
+.materi-card h3{font-size:17px;font-weight:900;color:#35256c;margin:0 0 8px}
+.materi-card p{font-size:12px;color:#8984a5;line-height:1.5;margin:0 0 14px;min-height:38px}
+.materi-card .materi-btn{display:inline-block;padding:9px 20px;border-radius:10px;background:#8056d9;color:white;font-weight:900;font-size:13px}
+.materi-frame-wrap{margin-top:16px;border-radius:18px;overflow:hidden;border:1px solid #f1ecf8;background:white;box-shadow:0 8px 24px #664c9910}
+.materi-frame-wrap iframe{width:100%;height:calc(100vh - 240px);min-height:600px;border:0;display:block}
+.materi-back{display:inline-flex;align-items:center;gap:8px;background:#f4effc;color:#6e49bd;border:0;border-radius:10px;padding:10px 18px;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:18px;font-family:Nunito,sans-serif}
+.materi-back:hover{background:#e8dcfb}
+
 @media(max-width:1100px){.page{grid-template-columns:1fr 1.05fr;padding:45px 6%}.right{display:none}}
 @media(max-width:650px){
 .page{display:flex;flex-direction:column;gap:28px;padding:35px 20px}
@@ -108,11 +122,13 @@ h1{font-size:45px}
 .panel{padding:18px}
 .app-top{align-items:flex-start}
 .userline{max-width:180px}
+.materi-frame-wrap iframe{height:70vh;min-height:500px}
 }
 </style>
 </head>
 
 <body>
+
 <div id="landing">
 <main class="page">
 <section class="left">
@@ -704,17 +720,28 @@ btnSoal.classList.toggle('active',tab==='soal');
 if(tab==='materi'){
 section.innerHTML=`
 <h3>Materi Pembelajaran</h3>
-<p class="muted">Pelajari materi yang tersedia untuk kelasmu.</p>
-<div id="studentMaterials" class="items">
-<div class="empty">Memuat materi...</div>
-</div>`;
-
-try{
-await loadMaterials('studentMaterials',false,student.id);
-}catch(e){
-$('studentMaterials').innerHTML=`<div class="empty">${esc(errText(e))}</div>`;
-}
-
+<p class="muted">Pilih materi yang ingin kamu pelajari. Semua materi tersedia untuk semua kelas.</p>
+<div class="materi-cards">
+<div class="materi-card" onclick="bukaMateri('materiA')">
+<span class="materi-icon">📘</span>
+<h3>Konsep Dasar Peluang</h3>
+<p>Ruang sampel, frekuensi relatif, peluang kejadian, komplemen, frekuensi harapan.</p>
+<span class="materi-btn">Buka Materi →</span>
+</div>
+<div class="materi-card" onclick="bukaMateri('materiB')">
+<span class="materi-icon">📗</span>
+<h3>Kejadian Majemuk</h3>
+<p>Saling lepas, tidak saling lepas, saling bebas, dan peluang bersyarat.</p>
+<span class="materi-btn">Buka Materi →</span>
+</div>
+<div class="materi-card" onclick="bukaMateri('materiC')">
+<span class="materi-icon">🎲</span>
+<h3>Lab Peluang</h3>
+<p>Eksperimen dadu interaktif untuk menemukan peluang teoretis.</p>
+<span class="materi-btn">Buka Materi →</span>
+</div>
+</div>
+<div id="materiFrameContainer"></div>`;
 }else if(tab==='soal'){
 section.innerHTML=`
 <h3>Latihan Soal</h3>
@@ -724,7 +751,25 @@ section.innerHTML=`
 };
 
 /* =========================
-   MATERI UNTUK MURID
+   BUKA MATERI (IFRAME)
+========================= */
+
+window.bukaMateri=tab=>{
+const section=$('studentSection');
+
+section.innerHTML=`
+<button class="materi-back" onclick="kembaliKeMateri()">← Kembali ke Materi</button>
+<div class="materi-frame-wrap">
+<iframe src="materi.html?tab=${tab}" title="Materi"></iframe>
+</div>`;
+};
+
+window.kembaliKeMateri=()=>{
+window.studentTab('materi');
+};
+
+/* =========================
+   MATERI UNTUK MURID (FUNGSI LAMA, TIDAK DIPAKAI)
 ========================= */
 
 async function loadMaterials(id,admin=false,classId=null){
